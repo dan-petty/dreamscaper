@@ -1,7 +1,7 @@
 //! Isometric renderer plugin, projection math, and camera system.
 
-use bevy::prelude::*;
 use crate::engine::ecs::components::{GridPosition, IsometricCoordinates};
+use bevy::prelude::*;
 
 /// Default tile dimensions in 2:1 isometric projection.
 pub const DEFAULT_TILE_WIDTH: f32 = 64.0;
@@ -31,7 +31,13 @@ impl Default for IsometricCamera {
 
 /// Convert discrete grid coordinate (x, y, elevation) to 2D isometric screen space.
 #[inline]
-pub fn grid_to_isometric(grid_x: f32, grid_y: f32, elevation: f32, tile_w: f32, tile_h: f32) -> Vec2 {
+pub fn grid_to_isometric(
+    grid_x: f32,
+    grid_y: f32,
+    elevation: f32,
+    tile_w: f32,
+    tile_h: f32,
+) -> Vec2 {
     let screen_x = (grid_x - grid_y) * (tile_w * 0.5);
     let screen_y = (grid_x + grid_y) * (tile_h * 0.5) + (elevation * tile_h * 0.5);
     Vec2::new(screen_x, screen_y)
@@ -68,7 +74,10 @@ fn setup_camera(mut commands: Commands, camera_settings: Res<IsometricCamera>) {
 /// System to synchronize ECS GridPosition into IsometricCoordinates and Bevy Transform.
 fn update_isometric_transforms(
     camera_settings: Res<IsometricCamera>,
-    mut query: Query<(&GridPosition, &mut IsometricCoordinates, &mut Transform), Changed<GridPosition>>,
+    mut query: Query<
+        (&GridPosition, &mut IsometricCoordinates, &mut Transform),
+        Changed<GridPosition>,
+    >,
 ) {
     for (grid_pos, mut iso_coords, mut transform) in query.iter_mut() {
         let iso_vec = grid_to_isometric(

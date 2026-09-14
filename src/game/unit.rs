@@ -1,9 +1,9 @@
 //! RTS unit spawning, selection, movement orders, and health systems.
 
-use bevy::prelude::*;
 use crate::engine::ecs::components::{
     GridPosition, IsometricCoordinates, Selectable, TargetDestination, Unit, Velocity,
 };
+use bevy::prelude::*;
 
 pub struct UnitPlugin;
 
@@ -29,7 +29,9 @@ fn spawn_initial_units(mut commands: Commands) {
         GridPosition::new(4, 4, 0),
         IsometricCoordinates::default(),
         Velocity::default(),
-        TargetDestination { target: Some(Vec2::new(8.0, 8.0)) },
+        TargetDestination {
+            target: Some(Vec2::new(8.0, 8.0)),
+        },
         Transform::from_xyz(0.0, 0.0, 1.0),
         GlobalTransform::default(),
         Name::new("Player_Worker_1"),
@@ -48,17 +50,17 @@ fn spawn_initial_units(mut commands: Commands) {
         GridPosition::new(5, 4, 0),
         IsometricCoordinates::default(),
         Velocity::default(),
-        TargetDestination { target: Some(Vec2::new(12.0, 12.0)) },
+        TargetDestination {
+            target: Some(Vec2::new(12.0, 12.0)),
+        },
         Transform::from_xyz(0.0, 0.0, 1.0),
         Name::new("Player_Scout_1"),
     ));
 }
 
 /// Process player orders (e.g. contextual right-click commands) to assigned target destinations.
-fn unit_order_system(
-    mut query: Query<(&Selectable, &mut TargetDestination), With<Unit>>,
-) {
-    for (selectable, mut dest) in query.iter_mut() {
+fn unit_order_system(query: Query<(&Selectable, &TargetDestination), With<Unit>>) {
+    for (selectable, dest) in query.iter() {
         if selectable.selected && dest.target.is_none() {
             // Can be populated from player input / cursor raycast
         }

@@ -81,6 +81,8 @@ fn advance_time_of_day(
     clock.normalized_time = clock.current_time / clock.day_length_seconds;
 
     // Modulate ambient lighting based on solar curve
-    let sun_factor = (clock.normalized_time * std::f32::consts::TAU).sin().max(0.1);
+    let sun_factor = (clock.normalized_time * std::f32::consts::TAU)
+        .sin()
+        .max(0.1);
     env.ambient_light = Vec3::splat(0.2 + (sun_factor * 0.8));
 }

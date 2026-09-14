@@ -2,7 +2,9 @@
 
 use bevy::prelude::*;
 use dreamscaper::engine::ecs::components::GridPosition;
-use dreamscaper::engine::renderer::{grid_to_isometric, isometric_to_grid, DEFAULT_TILE_HEIGHT, DEFAULT_TILE_WIDTH};
+use dreamscaper::engine::renderer::{
+    grid_to_isometric, isometric_to_grid, DEFAULT_TILE_HEIGHT, DEFAULT_TILE_WIDTH,
+};
 use dreamscaper::engine::resources::GameTimeOfDay;
 
 #[test]
@@ -26,8 +28,14 @@ fn test_isometric_projection_roundtrip() {
         DEFAULT_TILE_HEIGHT,
     );
 
-    assert!((original_x - recovered_grid.x).abs() < 1e-4, "X coordinate should roundtrip");
-    assert!((original_y - recovered_grid.y).abs() < 1e-4, "Y coordinate should roundtrip");
+    assert!(
+        (original_x - recovered_grid.x).abs() < 1e-4,
+        "X coordinate should roundtrip"
+    );
+    assert!(
+        (original_y - recovered_grid.y).abs() < 1e-4,
+        "Y coordinate should roundtrip"
+    );
 }
 
 #[test]

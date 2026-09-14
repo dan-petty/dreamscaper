@@ -1,8 +1,8 @@
 //! GPU Compute AI plugin managing unit steering, flocking, and pathfinding.
 
+use crate::engine::ecs::components::{GridPosition, TargetDestination, Velocity};
 use bevy::prelude::*;
 use bytemuck::{Pod, Zeroable};
-use crate::engine::ecs::components::{GridPosition, TargetDestination, Velocity};
 
 /// Memory layout of agent data sent to GPU compute shaders.
 #[repr(C)]

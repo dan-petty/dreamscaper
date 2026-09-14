@@ -11,10 +11,6 @@ pub struct GamePlugin;
 
 impl Plugin for GamePlugin {
     fn build(&self, app: &mut App) {
-        app.add_plugins((
-            map::MapPlugin,
-            unit::UnitPlugin,
-            ui::UiPlugin,
-        ));
+        app.add_plugins((map::MapPlugin, unit::UnitPlugin, ui::UiPlugin));
     }
 }

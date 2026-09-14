@@ -1,8 +1,8 @@
 //! Map generation, isometric tile grid spawning, and environmental reactivity.
 
-use bevy::prelude::*;
 use crate::engine::ecs::components::{DynamicTile, GridPosition, IsometricCoordinates, TileType};
 use crate::engine::resources::GameTimeOfDay;
+use bevy::prelude::*;
 
 pub struct MapPlugin;
 
@@ -27,13 +27,14 @@ fn generate_map(mut commands: Commands) {
                 0
             };
 
-            let tile_type = if (x == 0 || y == 0 || x == width - 1 || y == height - 1) && elevation == 0 {
-                TileType::Water
-            } else if elevation == 1 {
-                TileType::Stone
-            } else {
-                TileType::Meadow
-            };
+            let tile_type =
+                if (x == 0 || y == 0 || x == width - 1 || y == height - 1) && elevation == 0 {
+                    TileType::Water
+                } else if elevation == 1 {
+                    TileType::Stone
+                } else {
+                    TileType::Meadow
+                };
 
             commands.spawn((
                 GridPosition::new(x, y, elevation),
@@ -53,10 +54,7 @@ fn generate_map(mut commands: Commands) {
 }
 
 /// Updates tile moisture and surface reactivity based on diurnal clock.
-fn update_tile_conditions(
-    time_of_day: Res<GameTimeOfDay>,
-    mut query: Query<&mut DynamicTile>,
-) {
+fn update_tile_conditions(time_of_day: Res<GameTimeOfDay>, mut query: Query<&mut DynamicTile>) {
     let is_night = !time_of_day.is_daytime();
 
     for mut tile in query.iter_mut() {

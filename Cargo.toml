@@ -28,7 +28,7 @@ dev = ["bevy/dynamic_linking"]
 webgl2 = ["bevy/webgl2"]
 wasm = ["wasm-bindgen", "web-sys", "js-sys", "webgl2"]
 android = ["bevy/android_shared_stdcxx"]
-ios = ["bevy/ios"]
+ios = []
 
 [dev-dependencies]
 assert_approx_eq = "1.1"

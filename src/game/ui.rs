@@ -1,8 +1,8 @@
 //! RTS user interface, HUD overlays, selection box, and mini-map placeholders.
 
-use bevy::prelude::*;
 use crate::engine::ecs::components::Unit;
 use crate::engine::resources::GameTimeOfDay;
+use bevy::prelude::*;
 
 pub struct UiPlugin;
 
@@ -52,7 +52,11 @@ fn update_hud_text(
     mut text_query: Query<&mut Text, With<HudText>>,
 ) {
     let unit_count = units_query.iter().count();
-    let is_day = if time_of_day.is_daytime() { "Day" } else { "Night" };
+    let is_day = if time_of_day.is_daytime() {
+        "Day"
+    } else {
+        "Night"
+    };
 
     for mut text in text_query.iter_mut() {
         if text.sections.len() >= 2 {
