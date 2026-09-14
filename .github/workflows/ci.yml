@@ -1,0 +1,87 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  check:
+    name: Code Quality & Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install System Dependencies (Linux)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            pkg-config libx11-dev libasound2-dev libudev-dev \
+            libxkbcommon-x11-0 libvulkan-dev libwayland-dev libxkbcommon-dev
+      - name: Install Rust Toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy, rustfmt
+      - name: Rust Cache
+        uses: Swatinem/rust-cache@v2
+      - name: Format Check
+        run: cargo fmt --all -- --check
+      - name: Clippy Lint
+        run: cargo clippy --all-targets --all-features -- -D warnings
+
+  build-desktop:
+    name: Desktop Matrix (${{ matrix.os }})
+    needs: check
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+          - os: macos-latest
+            target: x86_64-apple-darwin
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install System Dependencies (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            pkg-config libx11-dev libasound2-dev libudev-dev \
+            libxkbcommon-x11-0 libvulkan-dev libwayland-dev libxkbcommon-dev
+      - name: Install Rust Toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+      - name: Rust Cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          key: ${{ matrix.target }}
+      - name: Build
+        run: cargo build --release --target ${{ matrix.target }}
+      - name: Run Tests
+        run: cargo test --release --target ${{ matrix.target }} --verbose
+
+  build-wasm:
+    name: WebAssembly Build (wasm32)
+    needs: check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Rust Toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+      - name: Rust Cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          key: wasm32
+      - name: Check Wasm Compilation
+        run: cargo check --target wasm32-unknown-unknown --features wasm
+      - name: Build Wasm Release
+        run: cargo build --release --target wasm32-unknown-unknown --features wasm

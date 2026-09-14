@@ -1,0 +1,16 @@
+{
+  "name": "Dream Valley",
+  "width": 32,
+  "height": 32,
+  "tile_size": [64.0, 32.0],
+  "default_biome": "meadow",
+  "spawn_points": [
+    { "id": 1, "x": 4, "y": 4, "team": "player" },
+    { "id": 2, "x": 28, "y": 28, "team": "ai" }
+  ],
+  "environmental_properties": {
+    "base_temperature": 21.0,
+    "base_moisture": 0.65,
+    "day_length_seconds": 120.0
+  }
+}

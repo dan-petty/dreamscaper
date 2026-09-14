@@ -1,0 +1,47 @@
+[package]
+name = "dreamscaper"
+version = "0.1.0"
+edition = "2021"
+description = "Cross-platform isometric RTS engine written in Rust, powered by Bevy and GPU compute shaders."
+license = "MIT"
+repository = "https://github.com/dan-petty/dreamscaper"
+readme = "README.md"
+keywords = ["bevy", "rts", "isometric", "compute-shader", "wgpu"]
+categories = ["game-engines", "graphics"]
+
+[dependencies]
+bevy = { version = "0.13", default-features = true }
+bytemuck = { version = "1.16", features = ["derive"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+log = "0.4"
+env_logger = "0.11"
+
+# Web dependencies
+wasm-bindgen = { version = "0.2", optional = true }
+js-sys = { version = "0.3", optional = true }
+web-sys = { version = "0.3", optional = true }
+
+[features]
+default = []
+dev = ["bevy/dynamic_linking"]
+webgl2 = ["bevy/webgl2"]
+wasm = ["wasm-bindgen", "web-sys", "js-sys", "webgl2"]
+android = ["bevy/android_shared_stdcxx"]
+ios = ["bevy/ios"]
+
+[dev-dependencies]
+assert_approx_eq = "1.1"
+
+[profile.dev]
+opt-level = 1
+
+[profile.dev.package."*"]
+opt-level = 3
+
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true
