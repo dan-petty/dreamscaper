@@ -1,9 +1,13 @@
 # Target and optimization overrides for dreamscaper
 
-# Optional: If clang and lld are installed, you can enable fast linking:
-# [target.x86_64-unknown-linux-gnu]
-# linker = "clang"
-# rustflags = ["-Clink-arg=-fuse-ld=lld"]
+# Multi-threaded linker configuration for ultra-fast compilation on Linux
+[target.x86_64-unknown-linux-gnu]
+linker = "clang"
+rustflags = ["-Clink-arg=-fuse-ld=lld"]
+
+[target.aarch64-unknown-linux-gnu]
+linker = "clang"
+rustflags = ["-Clink-arg=-fuse-ld=lld"]
 
 [target.wasm32-unknown-unknown]
 runner = "wasm-server-runner"

@@ -4,7 +4,7 @@
   "features": {
     "ghcr.io/devcontainers/features/github-cli:1": {}
   },
-  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y --no-install-recommends g++ pkg-config libx11-dev libasound2-dev libudev-dev libxkbcommon-x11-0 libvulkan-dev libwayland-dev libxkbcommon-dev lld clang && rustup target add wasm32-unknown-unknown",
+  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y --no-install-recommends g++ pkg-config libx11-dev libasound2-dev libudev-dev libxkbcommon-x11-0 libvulkan-dev libwayland-dev libxkbcommon-dev lld clang mold && rustup target add wasm32-unknown-unknown",
   "customizations": {
     "vscode": {
       "extensions": [
