@@ -59,13 +59,94 @@ pub struct TileMapAsset {
     pub default_biome: String,
 }
 
-/// Resource plugin registering environment clocks and custom assets.
+use crate::engine::ecs::components::TileType;
+
+/// Visual and ecological theme dictating landscape look and feel.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default)]
+pub enum TerrainTheme {
+    #[default]
+    Verdant,
+    Celestial,
+    Obsidian,
+    Autumnal,
+}
+
+/// Comprehensive configurable parameters directing procedural scene generation.
+#[derive(Resource, Debug, Clone, Serialize, Deserialize, PartialEq)]
+pub struct TerrainConfig {
+    pub width: u32,
+    pub height: u32,
+    pub wave_expansion_speed: f32,
+    pub elevation_scale: f32,
+    pub frequency: f32,
+    pub roughness: f32,
+    pub water_threshold: f32,
+    pub sand_threshold: f32,
+    pub meadow_threshold: f32,
+    pub forest_threshold: f32,
+    pub mountain_threshold: f32,
+    pub feature_density: f32,
+    pub theme: TerrainTheme,
+}
+
+impl Default for TerrainConfig {
+    fn default() -> Self {
+        Self {
+            width: 32,
+            height: 32,
+            wave_expansion_speed: 3.0,
+            elevation_scale: 3.0,
+            frequency: 0.12,
+            roughness: 0.5,
+            water_threshold: 0.20,
+            sand_threshold: 0.28,
+            meadow_threshold: 0.65,
+            forest_threshold: 0.85,
+            mountain_threshold: 0.93,
+            feature_density: 0.40,
+            theme: TerrainTheme::Verdant,
+        }
+    }
+}
+
+/// Deterministic 2D procedural landscape evaluation based on configurable parameters.
+pub fn evaluate_terrain_sample(x: f32, y: f32, config: &TerrainConfig) -> (i32, TileType, f32) {
+    let freq = config.frequency;
+    // Multi-octave harmonic combination
+    let oct1 = ((x * freq).sin() * (y * freq).cos() + 1.0) * 0.5;
+    let oct2 = (((x * 2.3 * freq) + 1.3).cos() * ((y * 2.1 * freq) + 2.7).sin() + 1.0) * 0.5;
+    let raw_val = oct1 * (1.0 - config.roughness) + oct2 * config.roughness;
+    let clamped_val = raw_val.clamp(0.0, 1.0);
+
+    let (elevation, tile_type) = if clamped_val < config.water_threshold {
+        (0, TileType::Water)
+    } else if clamped_val < config.sand_threshold {
+        (0, TileType::Sand)
+    } else if clamped_val < config.meadow_threshold {
+        (1, TileType::Meadow)
+    } else if clamped_val < config.forest_threshold {
+        (1, TileType::Forest)
+    } else {
+        let max_elev = config.elevation_scale.round() as i32;
+        let elev = 1
+            + (((clamped_val - config.forest_threshold)
+                / (1.0 - config.forest_threshold).max(0.01))
+                * (max_elev.max(1) as f32))
+                .round() as i32;
+        (elev, TileType::Stone)
+    };
+
+    (elevation, tile_type, clamped_val)
+}
+
+/// Resource plugin registering environment clocks, terrain configs, and custom assets.
 pub struct ResourcePlugin;
 
 impl Plugin for ResourcePlugin {
     fn build(&self, app: &mut App) {
         app.init_resource::<GameTimeOfDay>()
             .init_resource::<EnvironmentSettings>()
+            .init_resource::<TerrainConfig>()
             .init_asset::<TileMapAsset>()
             .add_systems(Update, advance_time_of_day);
     }

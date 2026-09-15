@@ -1,0 +1,15 @@
+{
+  "width": 32,
+  "height": 32,
+  "wave_expansion_speed": 3.0,
+  "elevation_scale": 3.0,
+  "frequency": 0.12,
+  "roughness": 0.5,
+  "water_threshold": 0.20,
+  "sand_threshold": 0.28,
+  "meadow_threshold": 0.65,
+  "forest_threshold": 0.85,
+  "mountain_threshold": 0.93,
+  "feature_density": 0.40,
+  "theme": "Verdant"
+}

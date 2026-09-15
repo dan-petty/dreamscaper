@@ -96,3 +96,69 @@ pub struct Velocity {
 pub struct TargetDestination {
     pub target: Option<Vec2>,
 }
+
+/// Specialized Explorer character that radiates terrain discovery.
+#[derive(Component, Debug, Clone, PartialEq)]
+pub struct Explorer {
+    pub sight_radius: f32,
+    pub exploration_speed: f32,
+    pub active: bool,
+}
+
+impl Default for Explorer {
+    fn default() -> Self {
+        Self {
+            sight_radius: 6.0,
+            exploration_speed: 4.5,
+            active: true,
+        }
+    }
+}
+
+/// Progressive development and crystallization state of an isometric tile.
+#[derive(Component, Debug, Clone, Copy, PartialEq, Serialize, Deserialize, Default)]
+pub enum TerrainDevelopmentState {
+    /// Latent cell awaiting the outward discovery wave.
+    #[default]
+    Latent,
+    /// Progressive materialization phase (0.0 to 1.0) with rising elevation.
+    Forming(f32),
+    /// Fully crystallized and detailed landscape cell hosting natural features.
+    Detailed,
+}
+
+impl TerrainDevelopmentState {
+    pub fn is_detailed(&self) -> bool {
+        matches!(self, Self::Detailed)
+    }
+
+    pub fn is_forming(&self) -> bool {
+        matches!(self, Self::Forming(_))
+    }
+
+    pub fn progress(&self) -> f32 {
+        match self {
+            Self::Latent => 0.0,
+            Self::Forming(p) => *p,
+            Self::Detailed => 1.0,
+        }
+    }
+}
+
+/// Categories of natural and architectural landscape features on detailed terrain.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
+pub enum FeatureType {
+    Tree,
+    AncientStone,
+    CrystalCluster,
+    WildFlora,
+    SpringWater,
+}
+
+/// Landscape feature entity spawned on crystallized tiles.
+#[derive(Component, Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct LandscapeFeature {
+    pub feature_type: FeatureType,
+    pub scale: f32,
+    pub variant: u32,
+}

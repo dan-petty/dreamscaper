@@ -1,6 +1,7 @@
 //! Isometric renderer plugin, projection math, and camera system.
 
-use crate::engine::ecs::components::{GridPosition, IsometricCoordinates};
+use crate::engine::ecs::components::{Explorer, GridPosition, IsometricCoordinates};
+use crate::engine::resources::TerrainConfig;
 use bevy::prelude::*;
 
 /// Default tile dimensions in 2:1 isometric projection.
@@ -60,17 +61,59 @@ impl Plugin for RendererPlugin {
     fn build(&self, app: &mut App) {
         app.init_resource::<IsometricCamera>()
             .add_systems(Startup, setup_camera)
-            .add_systems(Update, (tile_update_system, update_isometric_transforms));
+            .add_systems(
+                Update,
+                (
+                    tile_update_system,
+                    update_isometric_transforms,
+                    camera_follow_explorer_system,
+                ),
+            );
     }
 }
 
-/// Spawns 2D camera with isometric default views.
-fn setup_camera(mut commands: Commands, camera_settings: Res<IsometricCamera>) {
+/// Spawns 2D camera centered on map center or configured offset.
+fn setup_camera(
+    mut commands: Commands,
+    camera_settings: Res<IsometricCamera>,
+    config: Option<Res<TerrainConfig>>,
+) {
+    let (cx, cy) = config
+        .map(|c| (c.width as f32 * 0.5, c.height as f32 * 0.5))
+        .unwrap_or((16.0, 16.0));
+
+    let center_iso = grid_to_isometric(
+        cx,
+        cy,
+        0.0,
+        camera_settings.tile_width,
+        camera_settings.tile_height,
+    );
+
+    let initial_pos = Vec3::new(center_iso.x, center_iso.y, 1000.0) + camera_settings.offset;
+
     commands.spawn((
         Camera2d,
-        Transform::from_translation(camera_settings.offset),
+        Transform::from_translation(initial_pos),
         Name::new("IsometricCamera"),
     ));
+}
+
+/// Smoothly pans camera to follow the Explorer character.
+fn camera_follow_explorer_system(
+    explorer_query: Query<&IsometricCoordinates, With<Explorer>>,
+    mut camera_query: Query<&mut Transform, With<Camera2d>>,
+) {
+    if let Some(explorer_iso) = explorer_query.iter().next() {
+        for mut camera_tf in camera_query.iter_mut() {
+            let target = Vec3::new(
+                explorer_iso.screen_x,
+                explorer_iso.screen_y,
+                camera_tf.translation.z,
+            );
+            camera_tf.translation = camera_tf.translation.lerp(target, 0.05);
+        }
+    }
 }
 
 /// System to synchronize ECS GridPosition into IsometricCoordinates and Bevy Transform.
