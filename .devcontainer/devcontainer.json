@@ -6,7 +6,7 @@
     "ghcr.io/devcontainers/features/desktop-lite:1": {}
   },
   "forwardPorts": [6080],
-  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y --no-install-recommends g++ pkg-config libx11-dev libasound2-dev libudev-dev libxkbcommon-x11-0 libvulkan-dev libwayland-dev libxkbcommon-dev lld clang mold xvfb libxcursor-dev libxrandr-dev libxi-dev && rustup update stable && rustup target add wasm32-unknown-unknown",
+  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y --no-install-recommends g++ pkg-config libx11-dev libasound2-dev libudev-dev libxkbcommon-x11-0 libvulkan-dev libwayland-dev libxkbcommon-dev lld clang mold xvfb libxcursor-dev libxrandr-dev libxi-dev mesa-vulkan-drivers libgl1-mesa-dri vulkan-tools && rustup update stable && rustup target add wasm32-unknown-unknown",
   // Optional: For native host GUI window & GPU passthrough on Windows (WSL2/WSLg) or Linux,
   // uncomment the runArgs and containerEnv blocks below:
   // "runArgs": [
