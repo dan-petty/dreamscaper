@@ -10,24 +10,24 @@ keywords = ["bevy", "rts", "isometric", "compute-shader", "wgpu"]
 categories = ["game-engines", "graphics"]
 
 [dependencies]
-bevy = { version = "0.13", default-features = true }
-bytemuck = { version = "1.16", features = ["derive"] }
-serde = { version = "1.0", features = ["derive"] }
-serde_json = "1.0"
-log = "0.4"
-env_logger = "0.11"
+bevy = { version = "0.19.1", default-features = true }
+bytemuck = { version = "1.25.2", features = ["derive"] }
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = "1.0.151"
+log = "0.4.34"
+env_logger = "0.11.11"
 
 # Web dependencies
-wasm-bindgen = { version = "0.2", optional = true }
-js-sys = { version = "0.3", optional = true }
-web-sys = { version = "0.3", optional = true }
+wasm-bindgen = { version = "0.2.128", optional = true }
+js-sys = { version = "0.3.105", optional = true }
+web-sys = { version = "0.3.105", optional = true }
 
 [features]
 default = []
 dev = ["bevy/dynamic_linking"]
 webgl2 = ["bevy/webgl2"]
 wasm = ["wasm-bindgen", "web-sys", "js-sys", "webgl2"]
-android = ["bevy/android_shared_stdcxx"]
+android = ["bevy/android-game-activity"]
 ios = []
 
 [dev-dependencies]
