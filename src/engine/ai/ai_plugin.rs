@@ -52,7 +52,7 @@ fn dispatch_ai_compute(
     config: Res<GpuSimConfig>,
     mut query: Query<(&mut GridPosition, &mut Velocity, &TargetDestination)>,
 ) {
-    let delta = time.delta_seconds();
+    let delta = time.delta_secs();
     let max_speed = config.max_speed;
 
     for (mut grid_pos, mut velocity, target_dest) in query.iter_mut() {

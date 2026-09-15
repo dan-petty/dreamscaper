@@ -77,7 +77,7 @@ fn advance_time_of_day(
     mut clock: ResMut<GameTimeOfDay>,
     mut env: ResMut<EnvironmentSettings>,
 ) {
-    clock.current_time = (clock.current_time + time.delta_seconds()) % clock.day_length_seconds;
+    clock.current_time = (clock.current_time + time.delta_secs()) % clock.day_length_seconds;
     clock.normalized_time = clock.current_time / clock.day_length_seconds;
 
     // Modulate ambient lighting based on solar curve

@@ -43,13 +43,11 @@ pub fn parse_launch_config() -> LaunchConfig {
             "--headless" | "-h" => {
                 headless_flag = true;
             }
-            "--ticks" => {
-                if i + 1 < args.len() {
-                    if let Ok(n) = args[i + 1].parse::<u64>() {
-                        max_ticks = Some(n);
-                    }
-                    i += 1;
+            "--ticks" if i + 1 < args.len() => {
+                if let Ok(n) = args[i + 1].parse::<u64>() {
+                    max_ticks = Some(n);
                 }
+                i += 1;
             }
             _ => {}
         }
@@ -79,16 +77,13 @@ fn main() {
         println!("============================================================");
 
         App::new()
-            .add_plugins(
-                MinimalPlugins.set(ScheduleRunnerPlugin::run_loop(Duration::from_secs_f64(
-                    1.0 / 60.0,
-                ))),
-            )
+            .add_plugins(MinimalPlugins.set(ScheduleRunnerPlugin::run_loop(
+                Duration::from_secs_f64(1.0 / 60.0),
+            )))
             .add_plugins((
                 bevy::log::LogPlugin::default(),
                 bevy::asset::AssetPlugin::default(),
                 bevy::transform::TransformPlugin,
-                bevy::hierarchy::HierarchyPlugin,
             ))
             .insert_resource(HeadlessTickController {
                 current_tick: 0,
@@ -109,7 +104,7 @@ fn main() {
                     .set(WindowPlugin {
                         primary_window: Some(Window {
                             title: "Dreamscaper — Isometric RTS Engine".into(),
-                            resolution: (1280.0_f32, 720.0_f32).into(),
+                            resolution: (1280u32, 720u32).into(),
                             resizable: true,
                             ..default()
                         }),
@@ -118,7 +113,7 @@ fn main() {
                     .set(ImagePlugin::default_nearest()),
             )
             .add_plugins((EnginePlugin, GamePlugin))
-            .insert_resource(ClearColor(Color::rgb(0.08, 0.09, 0.11)))
+            .insert_resource(ClearColor(Color::srgb(0.08, 0.09, 0.11)))
             .run();
     }
 }
@@ -127,16 +122,16 @@ fn main() {
 fn headless_tick_system(
     mut controller: ResMut<HeadlessTickController>,
     time: Res<Time>,
-    mut exit: EventWriter<AppExit>,
+    mut exit: MessageWriter<AppExit>,
 ) {
     controller.current_tick += 1;
 
-    if controller.current_tick % 60 == 0 {
+    if controller.current_tick.is_multiple_of(60) {
         info!(
             "Tick: {} | In-Game Elapsed: {:.1}s | Delta: {:.4}s",
             controller.current_tick,
-            time.elapsed_seconds(),
-            time.delta_seconds()
+            time.elapsed_secs(),
+            time.delta_secs()
         );
     }
 
@@ -146,7 +141,7 @@ fn headless_tick_system(
                 "Headless simulation reached target of {} ticks. Exiting cleanly.",
                 max
             );
-            exit.send(AppExit);
+            exit.write(AppExit::Success);
         }
     }
 }

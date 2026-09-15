@@ -12,7 +12,7 @@ fn test_app_minimal_plugin_build() {
         .add_plugins(EnginePlugin);
 
     // Verify resources were initialized
-    assert!(app.world.contains_resource::<GameTimeOfDay>());
+    assert!(app.world().contains_resource::<GameTimeOfDay>());
 }
 
 #[test]
@@ -22,7 +22,7 @@ fn test_spawn_and_query_unit_entity() {
         .add_plugins(EnginePlugin);
 
     let entity = app
-        .world
+        .world_mut()
         .spawn((
             Unit {
                 name: "TestUnit".to_string(),
@@ -36,14 +36,14 @@ fn test_spawn_and_query_unit_entity() {
         .id();
 
     let unit = app
-        .world
+        .world()
         .get::<Unit>(entity)
         .expect("Unit component should exist");
     assert_eq!(unit.name, "TestUnit");
     assert_eq!(unit.team, 1);
 
     let pos = app
-        .world
+        .world()
         .get::<GridPosition>(entity)
         .expect("GridPosition should exist");
     assert_eq!(pos.x, 5);

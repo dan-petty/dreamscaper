@@ -64,11 +64,13 @@ impl Plugin for RendererPlugin {
     }
 }
 
-/// Spawns 2D camera bundle with isometric default views.
+/// Spawns 2D camera with isometric default views.
 fn setup_camera(mut commands: Commands, camera_settings: Res<IsometricCamera>) {
-    let mut camera_bundle = Camera2dBundle::default();
-    camera_bundle.transform.translation = camera_settings.offset;
-    commands.spawn((camera_bundle, Name::new("IsometricCamera")));
+    commands.spawn((
+        Camera2d,
+        Transform::from_translation(camera_settings.offset),
+        Name::new("IsometricCamera"),
+    ));
 }
 
 /// System to synchronize ECS GridPosition into IsometricCoordinates and Bevy Transform.
@@ -103,5 +105,5 @@ fn update_isometric_transforms(
 /// System for reacting to time of day or environmental conditions to update tiles.
 fn tile_update_system(time: Res<Time>) {
     // Dynamically modulates shader uniforms and environmental conditions
-    let _elapsed = time.elapsed_seconds();
+    let _elapsed = time.elapsed_secs();
 }
