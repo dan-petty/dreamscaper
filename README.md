@@ -139,9 +139,9 @@ The codebase strictly decouples reusable engine primitives (`dreamscaper::engine
   ```bash
   sudo apt-get update && sudo apt-get install -y \
     pkg-config libx11-dev libasound2-dev libudev-dev \
-    libxkbcommon-x11-0 libvulkan-dev libwayland-dev libxkbcommon-dev
+    libxkbcommon-x11-0 libvulkan-dev libwayland-dev libxkbcommon-dev \
+    clang lld # clang and lld are required on aarch64 Linux hosts only
   ```
-  # clang and lld are required on aarch64 Linux hosts only
 - **Fedora**:
   ```bash
   sudo dnf install -y pkg-config libX11-devel alsa-lib-devel systemd-devel vulkan-loader-devel

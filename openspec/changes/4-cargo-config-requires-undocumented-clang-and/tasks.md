@@ -28,9 +28,9 @@ Reads: none. Changes: `.devcontainer/devcontainer.json`.
 
 Reads: none. Changes: `README.md`.
 
-- [ ] 4.1 Run `grep -c 'aarch64' README.md` and confirm the output is at least 1. Run `grep 'clang' README.md` and confirm the output mentions aarch64, and verify that `grep 'aarch64' README.md && grep 'clang' README.md` fails on the base
-- [ ] 4.2 In the Linux Packages section (around lines 137-151), add a note after the apt-get install block: `# clang and lld are required on aarch64 Linux hosts only`. Add `clang lld` to the apt-get install line with a comment marking them as aarch64-only, and verify that `grep 'aarch64' README.md && grep 'clang' README.md` passes
-- [ ] 4.3 README.md, run `uv run devops docs generate --sync-readme`, and verify that `uv run devops ci docs` passes
+- [x] 4.1 Run `grep -c 'aarch64' README.md` and confirm the output is at least 1. Run `grep 'clang' README.md` and confirm the output mentions aarch64, and verify that `grep 'aarch64' README.md && grep 'clang' README.md` fails on the base
+- [x] 4.2 In the Linux Packages section (around lines 137-151), add a note after the apt-get install block: `# clang and lld are required on aarch64 Linux hosts only`. Add `clang lld` to the apt-get install line with a comment marking them as aarch64-only, and verify that `grep 'aarch64' README.md && grep 'clang' README.md` passes
+- [x] 4.3 README.md, run `uv run devops docs generate --sync-readme`, and verify that `uv run devops ci docs` passes
 
 ## Workflow follow-up
 
