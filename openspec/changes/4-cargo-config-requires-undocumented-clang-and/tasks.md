@@ -20,9 +20,9 @@ Reads: none. Changes: `.github/workflows/ci.yml`.
 
 Reads: none. Changes: `.devcontainer/devcontainer.json`.
 
-- [ ] 3.1 Run `grep -c 'mold' .devcontainer/devcontainer.json` and confirm the output is 0, and verify that `grep -c 'mold' .devcontainer/devcontainer.json` fails on the base
-- [ ] 3.2 In the postCreateCommand string (line 9), remove `mold` from the apt-get install package list, and verify that `grep -c 'mold' .devcontainer/devcontainer.json` passes
-- [ ] 3.3 Change no document, run `uv run devops docs generate --sync-readme`, and verify that `uv run devops ci docs` passes
+- [x] 3.1 Run `grep -c 'mold' .devcontainer/devcontainer.json` and confirm the output is 0, and verify that `grep -c 'mold' .devcontainer/devcontainer.json` fails on the base
+- [x] 3.2 In the postCreateCommand string (line 9), remove `mold` from the apt-get install package list, and verify that `grep -c 'mold' .devcontainer/devcontainer.json` passes
+- [x] 3.3 Change no document, run `uv run devops docs generate --sync-readme`, and verify that `uv run devops ci docs` passes
 
 ## 4. Add aarch64-only clang and lld note to README
 
