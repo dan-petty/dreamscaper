@@ -4,9 +4,9 @@
 
 Reads: none. Changes: `.cargo/config.toml`.
 
-- [ ] 1.1 Run `grep -c 'x86_64-unknown-linux-gnu' .cargo/config.toml` and confirm the output is 0. Run `grep -c 'BEVY_ASSET_ROOT' .cargo/config.toml` and confirm the output is 0. Run `grep -c 'aarch64-unknown-linux-gnu' .cargo/config.toml` and confirm the output is 1, and verify that `grep -c 'x86_64-unknown-linux-gnu' .cargo/config.toml; grep -c 'BEVY_ASSET_ROOT' .cargo/config.toml; grep -c 'aarch64-unknown-linux-gnu' .cargo/config.toml` fails on the base
-- [ ] 1.2 Delete the [target.x86_64-unknown-linux-gnu] block (lines 1-3). Delete the [env] block that sets BEVY_ASSET_ROOT (lines 19-21). Keep the [target.aarch64-unknown-linux-gnu] block unchanged, and verify that `grep -c 'x86_64-unknown-linux-gnu' .cargo/config.toml; grep -c 'BEVY_ASSET_ROOT' .cargo/config.toml; grep -c 'aarch64-unknown-linux-gnu' .cargo/config.toml` passes
-- [ ] 1.3 Change no document, run `uv run devops docs generate --sync-readme`, and verify that `uv run devops ci docs` passes
+- [x] 1.1 Run `grep -c 'x86_64-unknown-linux-gnu' .cargo/config.toml` and confirm the output is 0. Run `grep -c 'BEVY_ASSET_ROOT' .cargo/config.toml` and confirm the output is 0. Run `grep -c 'aarch64-unknown-linux-gnu' .cargo/config.toml` and confirm the output is 1, and verify that `grep -c 'x86_64-unknown-linux-gnu' .cargo/config.toml; grep -c 'BEVY_ASSET_ROOT' .cargo/config.toml; grep -c 'aarch64-unknown-linux-gnu' .cargo/config.toml` fails on the base
+- [x] 1.2 Delete the [target.x86_64-unknown-linux-gnu] block (lines 1-3). Delete the [env] block that sets BEVY_ASSET_ROOT (lines 19-21). Keep the [target.aarch64-unknown-linux-gnu] block unchanged, and verify that `grep -c 'x86_64-unknown-linux-gnu' .cargo/config.toml; grep -c 'BEVY_ASSET_ROOT' .cargo/config.toml; grep -c 'aarch64-unknown-linux-gnu' .cargo/config.toml` passes
+- [x] 1.3 Change no document, run `uv run devops docs generate --sync-readme`, and verify that `uv run devops ci docs` passes
 
 ## 2. Remove lld and clang from CI apt install lines
 
