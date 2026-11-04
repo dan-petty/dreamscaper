@@ -12,9 +12,9 @@ Reads: none. Changes: `.cargo/config.toml`.
 
 Reads: none. Changes: `.github/workflows/ci.yml`.
 
-- [ ] 2.1 Run `grep -c 'lld\|clang' .github/workflows/ci.yml` and confirm the output is 0, and verify that `grep -c 'lld\|clang' .github/workflows/ci.yml` fails on the base
-- [ ] 2.2 In the check job apt install line (line 23), remove `lld clang` from the package list. In the build-desktop job apt install line (line 56), remove `lld clang` from the package list, and verify that `grep -c 'lld\|clang' .github/workflows/ci.yml` passes
-- [ ] 2.3 Change no document, run `uv run devops docs generate --sync-readme`, and verify that `uv run devops ci docs` passes
+- [x] 2.1 Run `grep -c 'lld\|clang' .github/workflows/ci.yml` and confirm the output is 0, and verify that `grep -c 'lld\|clang' .github/workflows/ci.yml` fails on the base
+- [x] 2.2 In the check job apt install line (line 23), remove `lld clang` from the package list. In the build-desktop job apt install line (line 56), remove `lld clang` from the package list, and verify that `grep -c 'lld\|clang' .github/workflows/ci.yml` passes
+- [x] 2.3 Change no document, run `uv run devops docs generate --sync-readme`, and verify that `uv run devops ci docs` passes
 
 ## 3. Remove mold from dev container package list
 
