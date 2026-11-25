@@ -1,0 +1,17 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Renovate opens the dependency update pull requests of dreamscaper using the shared preset github>dan-petty/infra//renovate/base, with labels and commit prefixes matching .github/labels.yml.",
+  "extends": [
+    "github>dan-petty/infra//renovate/base"
+  ],
+  "labels": ["type/chore"],
+  "commitMessagePrefix": "chore:",
+  "dependencyDashboard": {
+    "labels": ["type/chore"]
+  },
+  "vulnerabilityAlerts": {
+    "description": "dreamscaper declares no scope/ labels and uses no scope in titles.",
+    "labels": ["type/security"],
+    "commitMessagePrefix": "fix:"
+  }
+}
