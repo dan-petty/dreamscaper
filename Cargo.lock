@@ -5316,7 +5316,7 @@ dependencies = [
  "toml_datetime",
  "toml_parser",
  "toml_writer",
- "winnow",,
+ "winnow",
 ]
 
 [[package]]
