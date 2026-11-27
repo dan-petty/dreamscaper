@@ -1,0 +1,23 @@
+# The checks of each commit. Run `pre-commit install` once in each clone. Renovate updates rev.
+#
+# no-commit-to-branch refuses a commit on main: each change goes through a pull request. The other
+# hooks check the syntax of the YAML, JSON and TOML files, refuse a private key, a large file and a
+# conflict marker, and write each line ending as LF with no trailing whitespace.
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: no-commit-to-branch
+        args: [--branch, main]
+      - id: check-merge-conflict
+      - id: check-yaml
+        args: [--allow-multiple-documents]
+      - id: check-json
+      - id: check-toml
+      - id: check-added-large-files
+      - id: detect-private-key
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+        args: [--markdown-linebreak-ext=md]
+      - id: mixed-line-ending
+        args: [--fix=lf]
