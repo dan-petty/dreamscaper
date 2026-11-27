@@ -1,3 +1,4 @@
+<<<<<<< before updating
 # Labels the roadmap jobs read and apply in this repository (devops-cli ADR 0001).
 # Intake reads the type/ labels from this file; sync them with: devops gh labels sync
 # Add this repository's own scope/ labels below.
@@ -93,3 +94,22 @@
 - name: "budget/borrowed"
   color: "B60205"
   description: "Agent opening beyond the quota allowance; counts as debt until closed"
+=======
+# The labels of this repository only. `devops repos onboard` adds each label that is missing on
+# GitHub. The workflow labels, such as type/* and status/*, come from devops-cli. Intake gives an
+# issue the scope/* label of its Conventional Commit scope, and the PR title check accepts each
+# scope of this file. In every repository it also accepts ci, deps, docs, main and spec, with or
+# without a label. Each scope/* label is gray (DCDCD6), as in devops-cli.
+
+- name: "scope/ci"
+  color: "DCDCD6"
+  description: "GitHub Actions workflows and pre-commit hooks"
+
+- name: "scope/deps"
+  color: "DCDCD6"
+  description: "Dependency pins and the updates of Renovate"
+
+- name: "scope/docs"
+  color: "DCDCD6"
+  description: "README and other documents"
+>>>>>>> after updating

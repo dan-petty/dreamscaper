@@ -15,7 +15,11 @@ permissions: {}
 jobs:
   pr-title:
     name: PR title
+<<<<<<< before updating
     uses: dan-petty/infra/.github/workflows/pr-title.yml@3d43c9f2d4a167e5f6600dff0c5ba60c3ba127d6 # v0.24.3
+=======
+    uses: dan-petty/infra/.github/workflows/pr-title.yml@v0.24.3
+>>>>>>> after updating
     permissions:
       contents: read # Read .github/labels.yml.
       pull-requests: read # Read the title and the commits of the pull request.
