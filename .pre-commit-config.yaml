@@ -2,7 +2,8 @@
 #
 # no-commit-to-branch refuses a commit on main: each change goes through a pull request. The other
 # hooks check the syntax of the YAML, JSON and TOML files, refuse a private key, a large file and a
-# conflict marker, and write each line ending as LF with no trailing whitespace.
+# conflict marker, and write each line ending as LF with no trailing whitespace. check-json skips
+# .devcontainer/devcontainer.json, whose JSONC comments the strict JSON parser cannot read.
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
@@ -13,6 +14,7 @@ repos:
       - id: check-yaml
         args: [--allow-multiple-documents]
       - id: check-json
+        exclude: ^\.devcontainer/devcontainer\.json$
       - id: check-toml
       - id: check-added-large-files
       - id: detect-private-key

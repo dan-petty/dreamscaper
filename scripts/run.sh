@@ -49,4 +49,3 @@ case "${TARGET}" in
     cargo run "${@:2}"
     ;;
 esac
-
