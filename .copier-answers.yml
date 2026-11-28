@@ -1,6 +1,6 @@
 # Copier writes this file. Change an answer with `copier update --data <question>=<answer>`, not here.
-_commit: v0.25.3
-_src_path: https://github.com/dan-petty/infra.git
+_commit: v0.1.0
+_src_path: https://github.com/dan-petty/github-workflows.git
 code_coverage: false
 code_owner: '@dan-petty'
 release_flow: false
